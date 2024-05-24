@@ -2,12 +2,13 @@ import Container from "../../shaerd/Container";
 import { RxDividerVertical } from "react-icons/rx";
 import { IoIosSearch } from "react-icons/io";
 import bannerImg from "../../assets/image/bannerImg.png";
-import arrowImg from "../../assets/image/arrowImg.png";
+import arrowImg from "../../assets/image/arrowImg2.png";
+import arrowImg1 from "../../assets/image/arrowImg.png";
 
 const Banner = () => {
   return (
     <Container>
-      <div className="w-full min-h-[calc(100vh-69px)] bg-[#C1DCDC] mt-5 rounded px-4 pt-4 md:px-12 md:pt-12 flex flex-col-reverse lg:gap-5 lg:flex-row">
+      <div className="w-full min-h-[calc(100vh-69px)] bg-[#C1DCDC] mt-5 rounded px-4 pt-4 md:px-12 md:pt-12 flex flex-col-reverse lg:gap-5 lg:flex-row relative">
         <div className="flex-1 text-black">
           <h1 className="text-7xl font-bold ">
             Buy your <br /> dream plants
@@ -30,7 +31,7 @@ const Banner = () => {
               <input
                 type="text"
                 placeholder="What are you looking for?"
-                className="h-14 px-2 w-full rounded"
+                className="h-14 px-2 w-full rounded mb-3"
               />
             </form>
             <p className="absolute right-2 top-2 px-2 py-2  rounded bg-[#C1DCDC]">
@@ -40,6 +41,11 @@ const Banner = () => {
         </div>
         <div className="flex w-40 lg:mt-24 justify-center items-center">
           <img src={arrowImg} alt="arrowImg " />
+          <img
+            src={arrowImg1}
+            alt="arrowImg"
+            className="absolute top-4 right-2"
+          />
         </div>
         <div className="flex-1 ">
           <div className="bg-[#1E1E1E] rounded-t-full  bg-bottom rounded-bl-full ">
