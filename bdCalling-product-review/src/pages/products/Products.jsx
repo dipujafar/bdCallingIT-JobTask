@@ -4,9 +4,17 @@ import bgImage from "../../assets/image/pattrenBgImage.jpg";
 import { Rating } from "@smastrom/react-rating";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { useEffect, useState } from "react";
 
 const Products = () => {
-  const [products, isLoading] = useProducts();
+  const [sort, setSort] = useState(" ");
+  const [products, isLoading, refetch] = useProducts(sort);
+
+  useEffect(() => {
+    refetch(sort);
+  }, [refetch, sort]);
+
+  let sortData = ["High to Low", "Low to High"];
 
   if (isLoading) {
     return (
@@ -22,7 +30,7 @@ const Products = () => {
       </Helmet>
       <div
         style={{ backgroundImage: `url(${bgImage})` }}
-        className="h-[50vh] w-full rounded-br-full"
+        className="h-[50vh] w-full rounded-br-full mb-5"
       >
         <Container>
           <h1 className="text-7xl font-medium  pt-20">
@@ -32,6 +40,28 @@ const Products = () => {
       </div>
       <div>
         <Container>
+          <div className="flex gap-2">
+            <p className="font-medium">Sort by Price :</p>
+            <select
+              onChange={(e) => {
+                setSort(
+                  sortData.find((val) => val == e.target.value).split(" ")[0]
+                );
+              }}
+              className="border border-black px-1 rounded"
+            >
+              <option disabled>Select Range</option>
+              {sortData.map((item) => {
+                return (
+                  <>
+                    <option value={item} key={item}>
+                      {item}
+                    </option>
+                  </>
+                );
+              })}
+            </select>
+          </div>
           <div className=" mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {products?.length &&
               products.map((product) => (

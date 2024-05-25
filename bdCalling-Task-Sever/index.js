@@ -31,7 +31,15 @@ async function run() {
     // getting all products
     app.get("/products", async (req, res) => {
       try {
-        const result = await productsCollection.find().toArray();
+        const { sort } = req?.query;
+        console.log(sort);
+
+        const options = {
+          sort: {
+            price: sort === "High" ? -1 : 1,
+          },
+        };
+        const result = await productsCollection.find({}, options).toArray();
         res.send(result);
       } catch (error) {
         res.status(500).json({
@@ -62,10 +70,8 @@ async function run() {
     app.get("/products/:id", async (req, res) => {
       try {
         const { id } = req?.params;
-        console.log(id);
         const query = { _id: new ObjectId(id) };
         const result = await productsCollection.findOne(query);
-        console.log(result);
         res.send(result);
       } catch (error) {
         res.status(500).json({

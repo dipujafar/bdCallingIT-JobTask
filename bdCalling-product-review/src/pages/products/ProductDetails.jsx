@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import useSingleProduct from "../../hook/useSingleProduct";
 import { Rating } from "@smastrom/react-rating";
 import Container from "../../shaerd/Container";
+import { Helmet } from "react-helmet-async";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -28,6 +29,9 @@ const ProductDetails = () => {
   return (
     <Container>
       <div>
+        <Helmet>
+          <title>Product | Details</title>
+        </Helmet>
         <div>
           <div className="card  card-compact bg-base-200 shadow-xl relative rounded">
             <figure>
