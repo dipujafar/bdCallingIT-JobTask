@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   AiOutlineEye,
   AiOutlineEyeInvisible,
@@ -15,11 +15,14 @@ import { updateProfile } from "firebase/auth";
 import { auth } from "../../firebase/firebase.config";
 import useAuth from "../../hook/useAuth";
 import { imageUpload } from "../../api/image";
+import useAxiosPublic from "../../hook/useAxiosPublic";
 
 const SignUpForm = () => {
   const [show, setShow] = useState(false);
   const [error, setError] = useState("");
   const { signUp } = useAuth();
+  const axiosPublic = useAxiosPublic();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -44,7 +47,23 @@ const SignUpForm = () => {
           photoURL: imageData?.data?.url,
         })
           .then(() => {
-            toast.success("Successfully sing Up");
+            const userInfo = {
+              email,
+              password,
+              name,
+              image: imageData?.data?.url,
+            };
+            axiosPublic
+              .post("/users", userInfo)
+              .then((res) => {
+                if (res.data.insertedId) {
+                  toast.success("Successfully sing Up");
+                  navigate("/");
+                } else {
+                  setError("User already exist");
+                }
+              })
+              .catch((error) => setError(error.message));
           })
           .catch((err) => {
             setError(err?.message);

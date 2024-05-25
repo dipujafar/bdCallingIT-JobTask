@@ -3,10 +3,17 @@ import useSingleProduct from "../../hook/useSingleProduct";
 import { Rating } from "@smastrom/react-rating";
 import Container from "../../shaerd/Container";
 import { Helmet } from "react-helmet-async";
+import useProductReviews from "../../hook/useProductReviews";
+import ProductReviews from "./ProductReviews";
 
 const ProductDetails = () => {
+  const [productReview, isLoadingReviews] = useProductReviews();
   const { id } = useParams();
   const [product, isLoading] = useSingleProduct(id);
+  console.log(id);
+
+  const reviews =
+    productReview?.filter((review) => review.product_id == id) || [];
   const {
     name,
     price,
@@ -19,6 +26,13 @@ const ProductDetails = () => {
     category,
   } = product || {};
   if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <span className="loading loading-dots loading-lg text-green-600"></span>
+      </div>
+    );
+  }
+  if (isLoadingReviews) {
     return (
       <div className="flex justify-center items-center h-screen">
         <span className="loading loading-dots loading-lg text-green-600"></span>
@@ -75,7 +89,15 @@ const ProductDetails = () => {
                   </div>
                 </div>
               </div>
+              <div className="card-actions justify-end">
+                <div>
+                  <p className="text-xl">Total Review : {reviews.length}</p>
+                </div>
+              </div>
             </div>
+          </div>
+          <div>
+            <ProductReviews reviews={reviews}></ProductReviews>
           </div>
         </div>
       </div>

@@ -5,16 +5,25 @@ import { Rating } from "@smastrom/react-rating";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { useEffect, useState } from "react";
+import useAuth from "../../hook/useAuth";
 
 const Products = () => {
-  const [sort, setSort] = useState(" ");
-  const [products, isLoading, refetch] = useProducts(sort);
+  const [sort, setSort] = useState("");
+  const { filter, setFilter } = useAuth();
+  console.log(filter);
+  const [products, isLoading, refetch] = useProducts(sort, filter);
 
   useEffect(() => {
-    refetch(sort);
-  }, [refetch, sort]);
+    refetch(sort, filter);
+  }, [refetch, sort, filter]);
 
   let sortData = ["High to Low", "Low to High"];
+  let categoryData = [
+    "All",
+    "Natural Plants",
+    "Artificial Plants",
+    "Plant Accessories",
+  ];
 
   if (isLoading) {
     return (
@@ -40,28 +49,56 @@ const Products = () => {
       </div>
       <div>
         <Container>
-          <div className="flex gap-2">
-            <p className="font-medium">Sort by Price :</p>
-            <select
-              onChange={(e) => {
-                setSort(
-                  sortData.find((val) => val == e.target.value).split(" ")[0]
-                );
-              }}
-              className="border border-black px-1 rounded"
-            >
-              <option disabled>Select Range</option>
-              {sortData.map((item) => {
-                return (
-                  <>
-                    <option value={item} key={item}>
-                      {item}
-                    </option>
-                  </>
-                );
-              })}
-            </select>
+          {/* data filtering */}
+
+          <div className="flex justify-between">
+            {/* sort by price */}
+            <div className="flex gap-2">
+              <p className="font-medium">Sort by Price :</p>
+              <select
+                onChange={(e) => {
+                  setSort(
+                    sortData.find((val) => val == e.target.value).split(" ")[0]
+                  );
+                }}
+                className="border border-black px-1 rounded"
+              >
+                <option disabled>Select Range</option>
+                {sortData.map((item) => {
+                  return (
+                    <>
+                      <option value={item} key={item}>
+                        {item}
+                      </option>
+                    </>
+                  );
+                })}
+              </select>
+            </div>
+            {/* filter by category */}
+            <div className="flex gap-2">
+              <p className="font-medium">Filter by Price :</p>
+              <select
+                onChange={(e) => {
+                  setFilter(categoryData.find((val) => val == e.target.value));
+                }}
+                className="border border-black px-1 rounded"
+              >
+                <option disabled>Select Range</option>
+                {categoryData.map((item) => {
+                  return (
+                    <>
+                      <option value={item} key={item}>
+                        {item}
+                      </option>
+                    </>
+                  );
+                })}
+              </select>
+            </div>
           </div>
+
+          {/* product show */}
           <div className=" mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {products?.length &&
               products.map((product) => (
@@ -77,7 +114,10 @@ const Products = () => {
                       className="rounded-xl w-full h-56"
                     />
                     <p className="absolute bg-slate-700 text-white py-1 font-medium rounded px-2 top-4 right-8">
-                      ${product?.price} per kg
+                      ${product?.price}
+                    </p>
+                    <p className="absolute bg-slate-700 text-white py-1 font-medium rounded px-2 top-4 left-8">
+                      {product?.category}
                     </p>
                   </figure>
                   <div className="card-body items-center text-center">

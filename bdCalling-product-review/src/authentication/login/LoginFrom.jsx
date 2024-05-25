@@ -113,12 +113,6 @@ const LoginFrom = () => {
           <span className="text-blue-700 text-lg font-medium">Sign Up</span>
         </Link>
       </p>
-      <div className="mt-5 flex flex-col justify-center items-center">
-        <p>customer@gmail.com</p>
-        <p>123456</p>
-        <p>admin2@gmail.com</p>
-        <p>123456</p>
-      </div>
     </div>
   );
 };

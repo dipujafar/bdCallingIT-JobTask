@@ -13,6 +13,7 @@ export const AuthContext = createContext(null);
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState("");
 
   const signUp = (email, password) => {
     setLoading(true);
@@ -50,6 +51,8 @@ const AuthProvider = ({ children }) => {
     signUp,
     signIn,
     logOut,
+    filter,
+    setFilter,
   };
   return (
     <AuthContext.Provider value={userInfo}>{children}</AuthContext.Provider>

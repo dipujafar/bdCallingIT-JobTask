@@ -1,9 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "./useAxiosPublic";
 
-const useProducts = (sort) => {
+const useProducts = (sort, filter) => {
   const axiosPublic = useAxiosPublic();
-  console.log(sort);
   const {
     data: products = [],
     isLoading,
@@ -11,7 +10,9 @@ const useProducts = (sort) => {
   } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
-      const res = await axiosPublic.get(`/products?sort=${sort}`);
+      const res = await axiosPublic.get(
+        `/products?sort=${sort}&filter=${filter}`
+      );
       return res?.data;
     },
   });
