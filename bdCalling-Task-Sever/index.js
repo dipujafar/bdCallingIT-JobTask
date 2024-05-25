@@ -23,8 +23,9 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     const productsCollection = client.db("greenmind").collection("products");
+    const reviewsCollection = client.db("greenmind").collection("reviews");
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
     // Send a ping to confirm a successful connection
 
     // getting all products
@@ -46,6 +47,7 @@ async function run() {
         const { search } = req?.query;
         const result = await productsCollection
           .find({ name: { $regex: search ? search : "", $options: "i" } })
+          .limit(3)
           .toArray();
         res.send(result);
       } catch (error) {
@@ -64,6 +66,19 @@ async function run() {
         const query = { _id: new ObjectId(id) };
         const result = await productsCollection.findOne(query);
         console.log(result);
+        res.send(result);
+      } catch (error) {
+        res.status(500).json({
+          success: false,
+          message: "Something went to wrong",
+        });
+      }
+    });
+
+    // getting reviews
+    app.get("/reviews", async (req, res) => {
+      try {
+        const result = await reviewsCollection.find().toArray();
         res.send(result);
       } catch (error) {
         res.status(500).json({

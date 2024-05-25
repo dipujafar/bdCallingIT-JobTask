@@ -32,7 +32,8 @@ const DisplayProduct = () => {
         <div className="flex flex-col lg:flex-row gap-5">
           {products.length ? (
             products?.slice(0, 3)?.map((product) => (
-              <div
+              <Link
+                to={`/product/${product._id}`}
                 key={product?._id}
                 className="card card-compact  bg-base-100 shadow-xl"
               >
@@ -47,7 +48,7 @@ const DisplayProduct = () => {
                   <h2 className="card-title">{product?.name}</h2>
                   <p className="text-lg">$ {product?.price}</p>
                 </div>
-              </div>
+              </Link>
             ))
           ) : (
             <p className="text-2xl">{` Sorry!! There are currently no available products of your search name.`}</p>

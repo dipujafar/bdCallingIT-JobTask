@@ -3,6 +3,7 @@ import Container from "../../shaerd/Container";
 import bgImage from "../../assets/image/pattrenBgImage.jpg";
 import { Rating } from "@smastrom/react-rating";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const Products = () => {
   const [products, isLoading] = useProducts();
@@ -16,6 +17,9 @@ const Products = () => {
   }
   return (
     <>
+      <Helmet>
+        <title>GREENMIND | Products</title>
+      </Helmet>
       <div
         style={{ backgroundImage: `url(${bgImage})` }}
         className="h-[50vh] w-full rounded-br-full"

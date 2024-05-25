@@ -40,7 +40,7 @@ const ProductDetails = () => {
                     {" "}
                     $ {price}
                   </p>
-                  <p className="text-xl absolute top-0 right-0 rounded-l-full bg-green-900 text-white px-3 py-1 ">
+                  <p className="text-xl absolute top-0 right-0 rounded-l-full bg-green-950 text-white px-3 py-1 ">
                     {" "}
                     <Rating
                       style={{ maxWidth: 100 }}

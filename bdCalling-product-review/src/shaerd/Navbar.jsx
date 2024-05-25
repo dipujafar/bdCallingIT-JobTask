@@ -46,15 +46,16 @@ const Navbar = () => {
           Products
         </NavLink>
       </li>
-      <li>
-        <NavLink
-          to="/contacts"
+      <li
+        onClick={() => toast("This Feature is Loading please wait few days.")}
+      >
+        <a
           className={({ isActive, isPending }) =>
             isPending ? "text-black" : isActive ? "text-black font-medium" : ""
           }
         >
           Contacts
-        </NavLink>
+        </a>
       </li>
     </>
   );
@@ -91,7 +92,9 @@ const Navbar = () => {
                 {navLinks}
               </ul>
             </div>
-            <a className="btn btn-ghost text-2xl">GREENMIND</a>
+            <Link to={"/"} className="btn btn-ghost text-2xl">
+              GREENMIND
+            </Link>
           </div>
           <div className="navbar-start hidden lg:flex">
             <ul className="menu menu-horizontal px-1 text-lg">{navLinks}</ul>
