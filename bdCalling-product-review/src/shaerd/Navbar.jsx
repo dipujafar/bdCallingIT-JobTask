@@ -1,7 +1,8 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Container from "./Container";
 import { GoPeople } from "react-icons/go";
 import { BsCart } from "react-icons/bs";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const navLinks = (
@@ -78,12 +79,16 @@ const Navbar = () => {
           </div>
           <div className="navbar-end">
             <div className="flex gap-10">
-              <button>
+              <button
+                onClick={() =>
+                  toast("This Feature is Loading please wait few days.")
+                }
+              >
                 <BsCart className="text-xl" />
               </button>
-              <button>
+              <Link to={"/login"}>
                 <GoPeople className="text-xl" />
-              </button>
+              </Link>
             </div>
           </div>
         </div>
