@@ -7,7 +7,12 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 //middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://bdcalling-task.web.app"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 const uri = process.env.DB_URL;
@@ -32,6 +37,23 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     // await client.connect();
     // Send a ping to confirm a successful connection
+
+    //jwt related apis
+    app.post("/jwt", async (req, res) => {
+      try {
+        console.log("he");
+        const user = req?.body;
+        console.log(user);
+        const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRE, {
+          expiresIn: "1h",
+        });
+        res.send({ token });
+      } catch {
+        (err) => {
+          res.send(err);
+        };
+      }
+    });
 
     // getting all products
     app.get("/products", async (req, res) => {
