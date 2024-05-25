@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {
   AiOutlineEye,
@@ -7,11 +7,14 @@ import {
 } from "react-icons/ai";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { useState } from "react";
-import googleLogo from "../../assets/image/googleLogo2.png";
+import { toast } from "react-toastify";
+import useAuth from "../../hook/useAuth";
 
 const LoginFrom = () => {
   const [show, setShow] = useState(false);
   const [error, setError] = useState("");
+  const { signIn } = useAuth();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -19,9 +22,18 @@ const LoginFrom = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
+    const { email, password } = data || {};
+
+    signIn(email, password)
+      .then(() => {
+        toast.success("Successfully Login");
+        navigate(location?.state ? location?.state : "/");
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
   };
-  const handleGoogleSing = () => {};
+
   return (
     <div className=" mt-2 md:w-3/4  bg-black  bg-opacity-30  mx-auto border  rounded shadow-lg shadow-gray-300 p-5 text-black">
       <h1 className="text-2xl font-medium mb-5 uppercase text-center">Login</h1>
@@ -94,15 +106,7 @@ const LoginFrom = () => {
 
         <p className="text-xl text-red-700">{error}</p>
       </form>
-      <fieldset className="space-y-2 border-t mt-2">
-        <legend className="text-center px-2">OR</legend>
-        <button
-          onClick={handleGoogleSing}
-          className="flex items-center btn bg-blue-100 w-full"
-        >
-          <img src={googleLogo} className="w-10" /> Login With Google
-        </button>
-      </fieldset>
+
       <p className="mt-2">
         Do not have Account?{" "}
         <Link to="/signup">

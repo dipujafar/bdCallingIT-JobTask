@@ -9,11 +9,12 @@ import { FaCamera } from "react-icons/fa";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { MdPeopleAlt } from "react-icons/md";
 import { useState } from "react";
-import { imageUpload } from "../../api/image";
+
 import { toast } from "react-toastify";
 import { updateProfile } from "firebase/auth";
 import { auth } from "../../firebase/firebase.config";
 import useAuth from "../../hook/useAuth";
+import { imageUpload } from "../../api/image";
 
 const SignUpForm = () => {
   const [show, setShow] = useState(false);
@@ -31,25 +32,23 @@ const SignUpForm = () => {
       return setError("Confirm password no match");
     }
 
-    // const imageFile = image[0];
-    // const imageData = await imageUpload(imageFile);
+    const imageFile = image[0];
+    const imageData = await imageUpload(imageFile);
 
     setError("");
 
     signUp(email, password)
-      .then((user) => {
-        // updateProfile(auth.currentUser, {
-        //   displayName: name,
-        //   photoURL: imageData?.data?.url,
-        // })
-        //   .then((userCredential) => {
-        //     console.log(userCredential.user);
-        //     toast.success("Successfully sing Up");
-        //   })
-        //   .catch((err) => {
-        //     setError(err?.message);
-        //   });
-        console.log(user);
+      .then(() => {
+        updateProfile(auth.currentUser, {
+          displayName: name,
+          photoURL: imageData?.data?.url,
+        })
+          .then(() => {
+            toast.success("Successfully sing Up");
+          })
+          .catch((err) => {
+            setError(err?.message);
+          });
       })
       .catch((err) => {
         setError(err.message);

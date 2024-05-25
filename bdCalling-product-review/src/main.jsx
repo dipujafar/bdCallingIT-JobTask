@@ -8,6 +8,7 @@ import AuthProvider from "./provider/AuthProvider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import "@smastrom/react-rating/style.css";
 
 const queryClient = new QueryClient();
 

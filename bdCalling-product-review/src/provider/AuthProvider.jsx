@@ -7,12 +7,12 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth } from "../firebase/firebase.config";
+
 export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
 
   const signUp = (email, password) => {
     setLoading(true);
@@ -50,8 +50,6 @@ const AuthProvider = ({ children }) => {
     signUp,
     signIn,
     logOut,
-    search,
-    setSearch,
   };
   return (
     <AuthContext.Provider value={userInfo}>{children}</AuthContext.Provider>

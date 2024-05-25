@@ -2,9 +2,28 @@ import { Link, NavLink } from "react-router-dom";
 import Container from "./Container";
 import { GoPeople } from "react-icons/go";
 import { BsCart } from "react-icons/bs";
+import { FaHome } from "react-icons/fa";
+import { CgLogOut } from "react-icons/cg";
 import { toast } from "react-toastify";
+import { useRef, useState } from "react";
+import useAuth from "../hook/useAuth";
 
 const Navbar = () => {
+  const { user, logOut } = useAuth();
+  const [open, setOpen] = useState(false);
+  const menuRef = useRef();
+  const imgRef = useRef();
+
+  window.addEventListener("click", (e) => {
+    if (e.target !== menuRef.current && e.target !== imgRef.current) {
+      setOpen(false);
+    }
+  });
+
+  const handleLogout = () => {
+    logOut().then(() => toast("Successfully Logout"));
+  };
+
   const navLinks = (
     <>
       <li>
@@ -86,9 +105,47 @@ const Navbar = () => {
               >
                 <BsCart className="text-xl" />
               </button>
-              <Link to={"/login"}>
-                <GoPeople className="text-xl" />
-              </Link>
+              {user ? (
+                <div className="relative">
+                  <img
+                    ref={imgRef}
+                    onClick={() => setOpen(!open)}
+                    src={user?.photoURL}
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
+                  {open && (
+                    <div
+                      ref={menuRef}
+                      className="absolute top-14 right-0 z-10 bg-gradient-to-r from-sky-800 to-sky-600 rounded  text-gray-200 w-72 p-4 space-y-2"
+                    >
+                      <img
+                        src={user?.photoURL}
+                        alt="ProfileImg"
+                        className="w-24 h-24 mx-auto rounded-full"
+                      />
+                      <p className="text-center text-xl">{user?.displayName}</p>
+                      <hr />
+                      <Link to="/">
+                        <p className=" mt-1 flex items-center gap-1 hover:text-sky-300">
+                          <FaHome /> Home
+                        </p>
+                      </Link>
+
+                      <hr />
+                      <button
+                        onClick={handleLogout}
+                        className="mt-1 flex items-center gap-1 hover:text-sky-300"
+                      >
+                        <CgLogOut /> Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link to={"/login"}>
+                  <GoPeople className="text-xl" />
+                </Link>
+              )}
             </div>
           </div>
         </div>

@@ -1,23 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "./useAxiosPublic";
 
-// eslint-disable-next-line no-unused-vars
-const useDisplayProducts = (search) => {
-  console.log(search);
+const useSingleProduct = (id) => {
   const axiosPublic = useAxiosPublic();
+  console.log(id);
   const {
-    data: products = [],
+    data: product = {},
     isLoading,
     refetch,
   } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
-      const res = await axiosPublic.get(`/displayProducts?search=${search}`);
+      const res = await axiosPublic.get(`/products/${id}`);
       return res?.data;
     },
   });
 
-  return [products, isLoading, refetch];
+  return [product, isLoading, refetch];
 };
 
-export default useDisplayProducts;
+export default useSingleProduct;

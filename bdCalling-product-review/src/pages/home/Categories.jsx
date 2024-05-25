@@ -4,6 +4,7 @@ import Natural_Plants_img from "../../assets/image/category1.jpeg";
 import Plant_Accessories_img from "../../assets/image/category2.jpeg";
 import Artificial_Plants_img from "../../assets/image/category3.jpeg";
 import { FaArrowRightLong } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 const Categories = () => {
   return (
@@ -50,9 +51,12 @@ const Categories = () => {
             <p>
               Horem ipsum dolor sit amet, <br /> consectetur adipiscing elit.
             </p>
-            <button className="flex justify-center items-center gap-2 btn">
+            <Link
+              to={"/products"}
+              className="flex justify-center items-center gap-2 btn"
+            >
               Explore <FaArrowRightLong />
-            </button>
+            </Link>
           </div>
         </Container>
       </div>

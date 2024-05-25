@@ -4,15 +4,21 @@ import { IoIosSearch } from "react-icons/io";
 import bannerImg from "../../assets/image/bannerImg.png";
 import arrowImg from "../../assets/image/arrowImg2.png";
 import arrowImg1 from "../../assets/image/arrowImg.png";
-
-import useAuth from "../../hook/useAuth";
+import useDisplayProducts from "../../hook/useDisplayProducts";
+import { useEffect, useState } from "react";
 
 const Banner = () => {
-  const { setSearch } = useAuth();
+  const [search, setSearch] = useState("");
+
+  const [, , refetch] = useDisplayProducts(search);
+
+  useEffect(() => {
+    refetch(search);
+  }, [refetch, search]);
+
   const handleSearch = (e) => {
     e.preventDefault();
     const form = e.target;
-    setSearch("");
     setSearch(form.search.value);
   };
   return (

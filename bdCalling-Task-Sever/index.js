@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 5000;
@@ -44,10 +44,26 @@ async function run() {
     app.get("/displayProducts", async (req, res) => {
       try {
         const { search } = req?.query;
-        console.log(search);
         const result = await productsCollection
-          .find({ name: { $regex: search, $options: "i" } })
+          .find({ name: { $regex: search ? search : "", $options: "i" } })
           .toArray();
+        res.send(result);
+      } catch (error) {
+        res.status(500).json({
+          success: false,
+          message: "Something went to wrong",
+        });
+      }
+    });
+
+    // getting single product
+    app.get("/products/:id", async (req, res) => {
+      try {
+        const { id } = req?.params;
+        console.log(id);
+        const query = { _id: new ObjectId(id) };
+        const result = await productsCollection.findOne(query);
+        console.log(result);
         res.send(result);
       } catch (error) {
         res.status(500).json({

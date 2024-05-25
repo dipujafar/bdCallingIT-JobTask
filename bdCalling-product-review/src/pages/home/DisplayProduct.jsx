@@ -1,12 +1,10 @@
-import useAuth from "../../hook/useAuth";
+import { Link } from "react-router-dom";
 import useDisplayProducts from "../../hook/useDisplayProducts";
 import Container from "../../shaerd/Container";
 import { FaArrowRightLong } from "react-icons/fa6";
 
 const DisplayProduct = () => {
-  const { search } = useAuth();
-  console.log(search);
-  const [products, isLoading] = useDisplayProducts(search);
+  const [products, isLoading] = useDisplayProducts("");
 
   if (isLoading) {
     return (
@@ -27,9 +25,9 @@ const DisplayProduct = () => {
             Easiest way to <br /> healthy life by buying <br /> your favorite
             plants{" "}
           </p>
-          <button className="btn bg-[#C1DCDC] flex justify-center items-center">
+          <Link to={"/products"} className="btn bg-[#C1DCDC] ">
             See more <FaArrowRightLong />
-          </button>
+          </Link>
         </div>
         <div className="flex flex-col lg:flex-row gap-5">
           {products.length ? (
@@ -52,7 +50,7 @@ const DisplayProduct = () => {
               </div>
             ))
           ) : (
-            <p className="text-2xl">{` Sorry!! There are currently no available products named ${search}.`}</p>
+            <p className="text-2xl">{` Sorry!! There are currently no available products of your search name.`}</p>
           )}
         </div>
       </div>
